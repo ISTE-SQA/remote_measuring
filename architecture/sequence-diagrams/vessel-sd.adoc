@@ -1,0 +1,45 @@
+== Vessel sequence diagram
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant V as Vessel
+    participant I as Ingress Service 
+    participant DC as Device Comm.
+    participant DB as Database
+    participant M as Messaging Service
+    activate V
+    activate I
+    activate DC
+    V->>I: set online
+    I->>DC: set online
+    DC->>DB: create campaign
+    activate DB
+    DB-->>DC: OK
+    deactivate DB
+    DC-->>I: OK
+    I-->>V: OK 
+    loop Every minute
+        activate V
+        V->>V: data caching
+        deactivate V
+        V->>I: send telemetry data 
+        I->>DC: send telemetry data
+        activate DC
+        DC->>DC: tag data
+        deactivate DC
+        DC->>DB: store tagged data
+        activate DB
+        DB->>DC: stored
+        deactivate DB
+        DC-xM: send measurements available
+    end
+    V->>I: set offline
+    I->>DC: set offline
+    DC->>DB: finish campaign
+    DB-->>DC: OK
+    deactivate V
+    deactivate I
+    deactivate DC
+----

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-provider
+  namespace: demonstrator
+  labels:
+    app: data-provider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-provider
+  template:
+    metadata:
+      labels:
+        app: data-provider
+      annotations:
+        prometheus.io/should_be_scraped: "true"
+        prometheus.io/scrape_port: "8080"
+        prometheus.io/metric_path: "/actuator/prometheus"
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - data-provider
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: data-provider
+          image: git.rss.iste.uni-stuttgart.de:5050/mosaic/demonstrator/data-provider
+          volumeMounts:
+          - mountPath: /ProtoComCalibration
+            name: "protocomcalibration"
+          args: ["--spring.profiles.active=kubernetes"]
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: gitlab-credentials
+      nodeSelector:
+        nodeInUse: "true"
+      volumes:
+      - name: protocomcalibration
+        persistentVolumeClaim:
+          claimName: protocom-calibration-new
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-provider-service
+  namespace: demonstrator
+spec:
+  selector:
+    app: data-provider
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

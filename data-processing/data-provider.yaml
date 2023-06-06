@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-provider
+  namespace: demonstrator
+  labels:
+    app: data-provider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-provider
+  template:
+    metadata:
+      labels:
+        app: data-provider
+    spec:
+      containers:
+        - name: data-provider
+          image: git.rss.iste.uni-stuttgart.de:5050/mosaic/demonstrator/data-provider
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: gitlab-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-provider-service
+spec:
+  selector:
+    app: data-provider
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

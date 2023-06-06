@@ -1,0 +1,48 @@
+== Processing sequence diagram
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant M as Messaging Service
+    participant DP as Data Processing
+    participant DB as Database
+    M-xDP: retrieve processed data (on Data Available)
+    activate DP
+    DP->>DB: get MC with ID 
+    activate DB
+    DB-->>DP: campaign
+    deactivate DB
+    DP->>DB: check cache for MC with ID
+    activate DB
+    DB-->>DP: cache result
+    deactivate DB
+    alt cache does not exist or old
+    DP->>DP: convert all or diff data points of MC
+    DP->>DB: put to cache
+    activate DB 
+    DB-->>DP: ok
+    deactivate DB
+    end
+    deactivate DP
+    M-xDP: conversion request (on Conversion Request)
+    activate DP
+    DP->>DB: check cache for MC with ID
+    activate DB
+    DB-->>DP: cache result
+    deactivate DB
+    alt cache does not exist
+    DP->>DB: get MC with ID 
+    activate DB
+    DB-->>DP: campaign
+    deactivate DB
+    DP->>DP: convert data
+    DP->>DB: put to cache
+    activate DB 
+    DB-->>DP: ok
+    deactivate DB
+    end
+    activate M
+    DP-xM: return converted data present in cache (Conversion Reply Queue)
+    deactivate DP
+----

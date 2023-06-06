@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-processing
+  namespace: demonstrator
+  labels:
+    app: data-processing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-processing
+  template:
+    metadata:
+      labels:
+        app: data-processing
+      annotations:
+        prometheus.io/should_be_scraped: "true"
+        prometheus.io/scrape_port: "8080"
+        prometheus.io/metric_path: "/actuator/prometheus"
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - data-processing
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: data-processing
+          image: git.rss.iste.uni-stuttgart.de:5050/mosaic/demonstrator/data-processing
+          resources:
+            limits:
+              memory: "500Mi"
+              cpu: 1
+            requests:
+              memory: "500Mi"
+              cpu: 1
+          volumeMounts:
+          - mountPath: /ProtoComCalibration
+            name: "protocomcalibration"
+          args: ["--spring.profiles.active=kubernetes"]
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: gitlab-credentials
+      nodeSelector:
+        nodeInUse: "true"
+      volumes:
+      - name: protocomcalibration
+        persistentVolumeClaim:
+          claimName: protocom-calibration-new
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-processing-service
+  namespace: demonstrator
+spec:
+  selector:
+    app: data-processing
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

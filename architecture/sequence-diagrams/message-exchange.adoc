@@ -1,0 +1,32 @@
+== Processing sequence diagram
+
+TODO: check whether RAW CAMPAIGN DATA is different at different queues, in some the ID of the campaign is send and in others raw measurement data for conversion.
+
+# The flow of messages to the broker resulting from a user interaction with the system
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant DP as <<Producer>>  <br /> Data Provider
+    participant DProcProd as <<Producer>> <br />  Data Processing
+    participant M as Messaging Service
+    participant DProc as <<Consumer>> <br />  Data Processing
+    participant DPC as <<Consumer>>  <br /> Data Provider 
+    DP-xM: sendMessageTo(conversion-request, RAW_CAMPAIGN_DATA)
+    DProc-xM: fetchMessageFrom(conversion-request, RAW_CAMPAIGN_DATA)
+    DProcProd-xM: sendMessageTo(conversion-request-reply,CONVERTED_DATA)
+    DPC-xM: fetchMessageFrom(conversion-request-reply, CONVERTED_DATA)
+----
+
+# The flow of messages to the broker resulting from a device(vessel) interaction with the system
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant DC as <<Producer>> <br /> Device Communication 
+    participant DProcProd as <<Producer>> <br />  Data Processing
+    participant M as Messaging Service
+    participant DProc as <<Consumer>> <br />  Data Processing
+    DC-xM: sendMessageTo(data-available, RAW_CAMPAIGN_DATA)
+    DProc-xM: fetchMessageFrom(data-available, RAW_CAMPAIGN_DATA)
+----

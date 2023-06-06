@@ -1,0 +1,13 @@
+package io.mosaic.demonstrator.dataprocessing;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class DataproviderApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}

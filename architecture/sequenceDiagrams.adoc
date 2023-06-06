@@ -1,0 +1,18 @@
+== Ingest Service
+
+[mermaid]
+----
+sequenceDiagram
+    participant I as Ingest
+    participant CS as Comm. Service
+    I->>CS: online
+    activate CS
+    CS-->>I: OK
+    loop Every minute
+        I->>CS: send telemetry data
+    end
+    I->>CS: offline
+    CS-->>I: OK
+    deactivate CS
+----
+

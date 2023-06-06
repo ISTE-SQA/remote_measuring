@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dummypod-calibration-debug
+  namespace: demonstrator
+spec:
+  containers:
+    - name: get-calibration-data
+      image: busybox:1.32
+      command: [ "sleep" ]
+      args: [ "infinity" ]
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /home
+          name: "protocom"
+  volumes:
+    - name: protocom
+      persistentVolumeClaim:
+        claimName: protocom-calibration
+  restartPolicy: Always

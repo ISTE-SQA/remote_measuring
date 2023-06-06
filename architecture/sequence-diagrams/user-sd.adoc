@@ -1,0 +1,25 @@
+== User sequence diagram
+
+[mermaid]
+----
+sequenceDiagram
+    autonumber
+    participant U as User
+    participant DP as Data Provider
+    participant DB as Database
+    participant M as Messaging Service
+    activate U
+    activate DP
+    U->>DP: getCampaigns
+    DP->>DB: get MCs
+    activate DB 
+    DB-->>DP: ids of MCs
+    deactivate DB
+    DP-->>U: ids of MCs 
+    U->>DP: getTelemetryData(campaign id)
+    DP-xM: retrieve processed data
+    M-xDP: processed data arrived
+    DP-->>U: processed data for visualization
+    deactivate U
+    deactivate DP 
+----

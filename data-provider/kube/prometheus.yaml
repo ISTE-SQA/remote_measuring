@@ -1,0 +1,213 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prometheus
+  namespace: default
+  selfLink: /api/v1/namespaces/default/configmaps/prometheus
+  uid: a0286900-923d-4078-8f4a-87a61459c904
+  resourceVersion: '46803001'
+  creationTimestamp: '2019-07-16T21:20:51Z'
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"v1","data":{"prometheus-alerts.yml":"groups:\n- name:
+      Kubemonitoring\n  rules:\n  - alert: Docker Disk - SpaceLow\n    expr:
+      node_filesystem_avail{device=\"/dev/vdb\",mountpoint=\"/rootfs/var/lib/docker\"}
+      / 1024 / 1024 / 1024 \u003c 4.0\n    for: 10m\n    labels:\n
+      severity: page\n    annotations:\n      summary: \"Instance {{
+      $labels.instance }} low on free docker disk\"\n      description: \"{{
+      $labels.instance }} has been low on disk space for more than 10
+      minutes.\"\n  - alert: Galera Disk - SpaceLow\n    expr:
+      node_filesystem_avail{device=\"/dev/vdb\",mountpoint=\"/rootfs/var/lib/docker\"}
+      / 1024 / 1024 / 1024 \u003c 1.5\n    for: 10m\n    labels:\n
+      severity: page\n    annotations:\n      summary: \"Instance {{
+      $labels.instance }} low on free galera disk\"\n      description: \"{{
+      $labels.instance }} has been low on disk space for more than 10
+      minutes.\"\n  - alert: Root Disk - SpaceLow\n    expr:
+      node_filesystem_avail{device=\"/dev/vda1\",mountpoint=\"/rootfs\"} / 1024
+      / 1024 / 1024 \u003c 3.0\n    for: 10m\n    labels:\n      severity:
+      page\n    annotations:\n      summary: \"Instance {{ $labels.instance }}
+      low on free root disk\"\n      description: \"{{ $labels.instance }} has
+      been low on disk space for more than 10 minutes.\"\n  - alert: Instance
+      down\n    expr: up{job=~\"kubernetes_.*\"} == 0\n    for: 10m\n
+      labels:\n      severity: page\n    annotations:\n      summary: \"Instance
+      {{ $labels.instance }} down\"\n      description: \"{{ $labels.instance }}
+      has been down for more than 10 minutes.\"","prometheus.yml":"global:\n
+      scrape_interval: 15s\nrule_files:\n-
+      prometheus-alerts.yml\nscrape_configs:\n- job_name: 'blackbox'\n
+      metrics_path: /probe\n  params:\n    module: [http_2xx]  # Look for a HTTP
+      200 response.\n  static_configs:\n    - targets:\n      -
+      https://wiki.rss.iste.uni-stuttgart.de/index.php/Special:UserLogin   #
+      Target to probe with https.\n      -
+      https://storage.rss.iste.uni-stuttgart.de/status.php\n
+      relabel_configs:\n    - source_labels: [__address__]\n      target_label:
+      __param_target\n    - source_labels: [__param_target]\n      target_label:
+      instance\n    - target_label: __address__\n      replacement:
+      10.246.235.185:9115  # The blackbox exporter's real hostname:port.\n-
+      job_name: 'prometheus'\n  scrape_interval: 5s\n  static_configs:\n    -
+      targets: ['localhost:9090']\n# etcd is living outside of our cluster and
+      we configure\n# it directly.\n#- job_name: 'etcd'\n#  target_groups:\n#  -
+      targets:\n#    - 10.0.0.3:2379\n#- job_name: 'gluster'\n#
+      target_groups:\n#  - targets:\n#    - 134.60.47.222:9189\n- job_name:
+      'kubernetes_components'\n  kubernetes_sd_configs:\n  - role: node\n
+      tls_config:\n    ca_file:
+      /var/run/secrets/kubernetes.io/serviceaccount/ca.crt\n  bearer_token_file:
+      /var/run/secrets/kubernetes.io/serviceaccount/token\n  # Prometheus
+      provides meta labels for each monitoring targets. We use\n  # these to
+      select targets we want to monitor and to modify labels attached\n  # to
+      scraped metrics.\n  relabel_configs:\n  # Redefine the Prometheus job
+      based on the monitored Kuberentes component.\n  - source_labels:
+      [__meta_kubernetes_node_name]\n    target_label: job\n    replacement:
+      kubernetes_$1\n  # Attach all node labels to the metrics scraped from the
+      components running\n  # on that node.\n  - source_labels:
+      [__meta_kubernetes_node_address_InternalIP]\n    target_label:
+      __address__\n    replacement: $1:9100\n  - action: labelmap\n    regex:
+      __meta_kubernetes_node_label_(.+)\n- job_name: 'kubernetes_services'\n
+      kubernetes_sd_configs:\n  - role: service\n  relabel_configs:\n  -
+      source_labels: [__meta_kubernetes_role,
+      __meta_kubernetes_service_annotation_prometheus_io_scrape]\n    action:
+      keep\n    regex: endpoint;true\n  - source_labels:
+      [__meta_kubernetes_service_name]\n    target_label: job\n  -
+      source_labels: [__meta_kubernetes_namespace]\n    target_label:
+      namespace\n  - action: labelmap\n    regex:
+      __meta_kubernetes_service_label_(.+)\nalerting:\n  alertmanagers:\n  -
+      scheme: http\n    timeout: 60s\n    static_configs:\n    - targets:\n
+      -
+      \"localhost:9093\""},"kind":"ConfigMap","metadata":{"annotations":{},"name":"prometheus","namespace":"default"}}
+data:
+  prometheus-alerts.yml: |-
+    groups:
+    - name: Kubemonitoring
+      rules:
+      - alert: Docker Disk - SpaceLow
+        expr:  node_filesystem_avail{device="/dev/vdb",mountpoint="/rootfs/var/lib/docker"} / 1024 / 1024 / 1024 < 4.0
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} low on free docker disk"
+          description: "{{ $labels.instance }} has been low on disk space for more than 10 minutes."
+      - alert: Galera Disk - SpaceLow
+        expr:  node_filesystem_avail{device="/dev/vdb",mountpoint="/rootfs/var/lib/docker"} / 1024 / 1024 / 1024 < 1.5
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} low on free galera disk"
+          description: "{{ $labels.instance }} has been low on disk space for more than 10 minutes."
+      - alert: Root Disk - SpaceLow
+        expr:  node_filesystem_avail{device="/dev/vda1",mountpoint="/rootfs"} / 1024 / 1024 / 1024 < 3.0
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} low on free root disk"
+          description: "{{ $labels.instance }} has been low on disk space for more than 10 minutes."
+      - alert: Instance down
+        expr: up{job=~"kubernetes_.*"} == 0
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"
+          description: "{{ $labels.instance }} has been down for more than 10 minutes."
+  prometheus.yml: |-
+    global:
+      scrape_interval: 15s
+    rule_files:
+    - prometheus-alerts.yml
+    scrape_configs:
+    - job_name: 'prometheus'
+      scrape_interval: 5s
+      static_configs:
+        - targets: ['localhost:9090']
+    - job_name: 'rabbit'
+      scrape_interval: 1s
+      static_configs:
+        - targets: ['10.246.166.172:15692']
+    - job_name: 'kubernetes-pods'
+
+      kubernetes_sd_configs:
+      - role: pod
+
+      relabel_configs:
+      # Example relabel to scrape only pods that have
+      # "example.io/should_be_scraped = true" annotation.
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_should_be_scraped]
+        action: keep
+        regex: true
+      #
+      # Example relabel to customize metric path based on pod
+      # "example.io/metric_path = <metric path>" annotation.
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_metric_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      #
+      # Example relabel to scrape only single, desired port for the pod
+      # based on pod "example.io/scrape_port = <port>" annotation.
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_scrape_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: kubernetes_namespace
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: kubernetes_pod_name
+
+
+    # etcd is living outside of our cluster and we configure
+    # it directly.
+    #- job_name: 'etcd'
+    #  target_groups:
+    #  - targets:
+    #    - 10.0.0.3:2379
+    #- job_name: 'gluster'
+    #  target_groups:
+    #  - targets:
+    #    - 134.60.47.222:9189
+    - job_name: 'kubernetes_components'
+      kubernetes_sd_configs:
+      - role: node
+      tls_config:
+        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      # Prometheus provides meta labels for each monitoring targets. We use
+      # these to select targets we want to monitor and to modify labels attached
+      # to scraped metrics.
+      relabel_configs:
+      # Redefine the Prometheus job based on the monitored Kuberentes component.
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: job
+        replacement: kubernetes_$1
+      # Attach all node labels to the metrics scraped from the components running
+      # on that node.
+      - source_labels: [__meta_kubernetes_node_address_InternalIP]
+        target_label: __address__
+        replacement: $1:9100
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+    - job_name: 'kubernetes_services'
+      kubernetes_sd_configs:
+      - role: service
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_role, __meta_kubernetes_service_annotation_prometheus_io_scrape]
+        action: keep
+        regex: endpoint;true
+      - source_labels: [__meta_kubernetes_service_name]
+        target_label: job
+      - source_labels: [__meta_kubernetes_namespace]
+        target_label: namespace
+      - action: labelmap
+        regex: __meta_kubernetes_service_label_(.+)
+    alerting:
+      alertmanagers:
+      - scheme: http
+        timeout: 60s
+        static_configs:
+        - targets:
+          - "localhost:9093"

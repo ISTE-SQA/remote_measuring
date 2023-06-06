@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: device-communication
+  labels:
+    app: device-communication
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: device-communication
+  template:
+    metadata:
+      labels:
+        app: device-communication
+      annotations:
+        prometheus.io/should_be_scraped: "true"
+        prometheus.io/scrape_port: "8080"
+        prometheus.io/metric_path: "/actuator/prometheus"
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - device-communication
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: device-communication
+          image: git.rss.iste.uni-stuttgart.de:5050/mosaic/demonstrator/device-communication
+          volumeMounts:
+          - mountPath: /ProtoComCalibration
+            name: "protocomcalibration"
+          args: ["--spring.profiles.active=kubernetes"]
+          env:
+            - name: SPRING_RABBITMQ_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: mosaic-app-config
+                  key: SPRING_RABBITMQ_PASSWORD
+            - name: SPRING_RABBITMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mosaic-app-config
+                  key: SPRING_RABBITMQ_HOST
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: gitlab-credentials
+      nodeSelector:
+        nodeInUse: "true"
+      volumes:
+      - name: protocomcalibration
+        persistentVolumeClaim:
+          claimName: protocom-calibration-new
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: device-communication-service
+spec:
+  selector:
+    app: device-communication
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 8080
