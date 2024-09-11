@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org.palladiosimulator.edp2.models:MeasuringPointRepository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.palladiosimulator.edp2.models="http://palladiosimulator.org/EDP2/MeasuringPoint/1.0" xmlns:pcmmeasuringpoint="http://palladiosimulator.org/PCM/MeasuringPoint/1.0" id="_TnzcMC28EeyjP44s5BVooA">
+  <measuringPoints xsi:type="pcmmeasuringpoint:AssemblyPassiveResourceMeasuringPoint" stringRepresentation="Passive Resource: Assembly_RabbitBroker.dataAvailableQueueSpots" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.repository#_1nbMGBeyEeybf7rGWS87vg">
+    <assembly href="../rm.system#_0sIfEBYeEeyTBLpRqyumrw"/>
+    <passiveResource href="../rm.repository#_1nbMGBeyEeybf7rGWS87vg"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:AssemblyPassiveResourceMeasuringPoint" stringRepresentation="Passive Resource: Assembly_RabbitBroker.conversionRequestQueueSpots" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.repository#_Q5ipCCUSEeyBxdqLFnzF4w">
+    <assembly href="../rm.system#_0sIfEBYeEeyTBLpRqyumrw"/>
+    <passiveResource href="../rm.repository#_Q5ipCCUSEeyBxdqLFnzF4w"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:AssemblyPassiveResourceMeasuringPoint" stringRepresentation="Passive Resource: Assembly_RabbitBroker.conversionRequestReplyQueueSpots" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.repository#_YvyRaBe9Eeybf7rGWS87vg">
+    <assembly href="../rm.system#_0sIfEBYeEeyTBLpRqyumrw"/>
+    <passiveResource href="../rm.repository#_YvyRaBe9Eeybf7rGWS87vg"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:AssemblyPassiveResourceMeasuringPoint" stringRepresentation="Passive Resource: Assembly_RabbitBroker.dataAvailableQueueMessages" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.repository#_JgLzGDM6EeyaraHENifBmA">
+    <assembly href="../rm.system#_0sIfEBYeEeyTBLpRqyumrw"/>
+    <passiveResource href="../rm.repository#_JgLzGDM6EeyaraHENifBmA"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:AssemblyPassiveResourceMeasuringPoint" stringRepresentation="Passive Resource: Assembly_RabbitBroker.conversionRequestQueueMessages" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.repository#_xRtXeE7FEeypatfX75Y3Yg">
+    <assembly href="../rm.system#_0sIfEBYeEeyTBLpRqyumrw"/>
+    <passiveResource href="../rm.repository#_xRtXeE7FEeypatfX75Y3Yg"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:AssemblyPassiveResourceMeasuringPoint" stringRepresentation="Passive Resource: Assembly_RabbitBroker.conversionRequestReplyQueueMessages" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.repository#_TinfGE7KEey8KvpF93Vc9Q">
+    <assembly href="../rm.system#_0sIfEBYeEeyTBLpRqyumrw"/>
+    <passiveResource href="../rm.repository#_TinfGE7KEey8KvpF93Vc9Q"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:UsageScenarioMeasuringPoint" stringRepresentation="Usage Scenario: VesselUsageScenario" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.usagemodel#_KX07cBLREeu8HvFyDMmd-w">
+    <usageScenario href="../rm.usagemodel#_KX07cBLREeu8HvFyDMmd-w"/>
+  </measuringPoints>
+</org.palladiosimulator.edp2.models:MeasuringPointRepository>

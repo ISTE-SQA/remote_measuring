@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<org.palladiosimulator.edp2.models:MeasuringPointRepository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.palladiosimulator.edp2.models="http://palladiosimulator.org/EDP2/MeasuringPoint/1.0" xmlns:pcmmeasuringpoint="http://palladiosimulator.org/PCM/MeasuringPoint/1.0" id="_V484cBLVEeu8HvFyDMmd-w">
+  <measuringPoints xsi:type="pcmmeasuringpoint:ActiveResourceMeasuringPoint" stringRepresentation="CPU [0] in ResourceContainer1" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.resourceenvironment#_L0DTwBLPEeu8HvFyDMmd-w">
+    <activeResource href="rm.resourceenvironment#_L0DTwBLPEeu8HvFyDMmd-w"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:ActiveResourceMeasuringPoint" stringRepresentation="CPU [0] in ResourceContainer2" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.resourceenvironment#_JCqKMBLPEeu8HvFyDMmd-w">
+    <activeResource href="rm.resourceenvironment#_JCqKMBLPEeu8HvFyDMmd-w"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:ActiveResourceMeasuringPoint" stringRepresentation="CPU [0] in ResourceContainer3" resourceURIRepresentation="">
+    <activeResource href="rm.resourceenvironment#_F07p8BLPEeu8HvFyDMmd-w"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:ActiveResourceMeasuringPoint" stringRepresentation="CPU [0] in Broker Node" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.resourceenvironment#_vmWqwBLVEeu8HvFyDMmd-w">
+    <activeResource href="rm.resourceenvironment#_vmWqwBLVEeu8HvFyDMmd-w"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:ActiveResourceMeasuringPoint" stringRepresentation="CPU [0] in DB Node" resourceURIRepresentation="">
+    <activeResource href="rm.resourceenvironment#_71AY8BLVEeu8HvFyDMmd-w"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:UsageScenarioMeasuringPoint" stringRepresentation="Usage Scenario: VesselUsageScenario" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.usagemodel#_KX07cBLREeu8HvFyDMmd-w">
+    <usageScenario href="rm.usagemodel#_KX07cBLREeu8HvFyDMmd-w"/>
+  </measuringPoints>
+  <measuringPoints xsi:type="pcmmeasuringpoint:EntryLevelSystemCallMeasuringPoint" stringRepresentation="SystemCall setOnline to RemoteMeasuringDemonstrator->DeviceCommunicationProvidedRole->online [_lDciIBLUEeu8HvFyDMmd-w]" resourceURIRepresentation="platform:/resource/RemoteMeasuringMosaic/rm.usagemodel#_lDciIBLUEeu8HvFyDMmd-w">
+    <entryLevelSystemCall href="rm.usagemodel#_lDciIBLUEeu8HvFyDMmd-w"/>
+  </measuringPoints>
+</org.palladiosimulator.edp2.models:MeasuringPointRepository>
